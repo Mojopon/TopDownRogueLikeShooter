@@ -17,6 +17,11 @@ public class PlayerController : MonoBehaviour {
         velocity = _velocity;
     }
 
+    public void LookAt(float angle)
+    {
+        transform.rotation = Quaternion.Euler(0, 0, angle);
+    }
+ 
     void FixedUpdate()
     {
         myRigidbody.MovePosition(myRigidbody.position + (Vector2)velocity * Time.fixedDeltaTime);
