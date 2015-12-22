@@ -27,6 +27,5 @@ public class Player : MonoBehaviour {
         float angle = RotationHelper.GetAngleFromToTarget(transform.position, mousePosition);
 
         controller.LookAt(angle);
-        
     }
 }
