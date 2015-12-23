@@ -3,7 +3,7 @@ using System.Collections;
 
 [RequireComponent(typeof(Rigidbody2D))]
 
-public class Enemy : MonoBehaviour
+public class Enemy : LivingEntity
 {
     public float moveSpeed = 3f;
     public float turnSpeed = 120f;
@@ -12,11 +12,11 @@ public class Enemy : MonoBehaviour
     private Rigidbody2D myRigidbody;
     private float currentAngle;
 
-    void Start()
+    protected override void Start()
     {
-        target = GameObject.FindGameObjectWithTag("Player").transform;
-        var angle = RotationHelper.GetAngleFromToTarget(transform.position, target.position);
+        base.Start();
 
+        target = GameObject.FindGameObjectWithTag("Player").transform;
         myRigidbody = GetComponent<Rigidbody2D>();
     }
 
