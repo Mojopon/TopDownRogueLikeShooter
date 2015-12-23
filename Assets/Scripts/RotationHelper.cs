@@ -35,4 +35,29 @@ public static class RotationHelper
 
         return target - source;
     }
+
+    public static float RotateToTarget(Vector2 source, Vector2 target, float currentAngle, float rotateSpeed)
+    {
+        var angle = GetAngleFromToTarget(source, target);
+        var diff = GetDifferenceBetweenAngles(currentAngle, angle);
+
+        if(diff > 0)
+        {
+            currentAngle += rotateSpeed;
+            if(currentAngle > angle)
+            {
+                currentAngle = angle;
+            }
+        }
+        else if(diff < 0)
+        {
+            currentAngle -= rotateSpeed;
+            if(currentAngle < angle)
+            {
+                currentAngle = angle;
+            }
+        }
+
+        return currentAngle;
+    }
 }
