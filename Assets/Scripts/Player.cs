@@ -25,6 +25,8 @@ public class Player : MonoBehaviour {
         Vector3 moveVelocity = moveInput.normalized * moveSpeed;
         controller.Move(moveVelocity);
 
+        viewCamera.transform.position = new Vector3(transform.position.x, transform.position.y, viewCamera.transform.position.z);
+
         // Rotate player towards mouse position
         Vector2 mousePosition = viewCamera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x,
                                                                           Input.mousePosition.y,

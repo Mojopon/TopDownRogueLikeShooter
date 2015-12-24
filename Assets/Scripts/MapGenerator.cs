@@ -9,6 +9,8 @@ public class MapGenerator : MonoBehaviour
     public Vector2 mapSize;
     public Vector2 maxRoomSize;
     public Vector2 minRoomSize;
+    public int seed;
+
     public MapCreationStrategyType strategy;
 
 
@@ -30,7 +32,7 @@ public class MapGenerator : MonoBehaviour
         Transform mapHolder = new GameObject(holderName).transform;
         mapHolder.parent = transform;
 
-        IMap map = mapCreationStrategy.Create(mapSize, maxRoomSize, minRoomSize, 1);
+        IMap map = mapCreationStrategy.Create(mapSize, maxRoomSize, minRoomSize, seed);
         TileType[,] tileData = map.MapData;
 
         for (int x = 0; x < tileData.GetLength(0); x++)
