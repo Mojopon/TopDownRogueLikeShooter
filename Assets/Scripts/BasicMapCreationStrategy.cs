@@ -110,7 +110,7 @@ public class BasicMapCreationStrategy
         MakeWalls();
 
         var map = new Map();
-        map.MapData = mapData;
+        map.TileData = mapData;
         return map;
     }
 

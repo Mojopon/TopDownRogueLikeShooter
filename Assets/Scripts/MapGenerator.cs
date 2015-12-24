@@ -13,6 +13,7 @@ public class MapGenerator : MonoBehaviour
 
     public MapCreationStrategyType strategy;
 
+    private IMap currentMap;
 
     void Start()
     {
@@ -32,8 +33,8 @@ public class MapGenerator : MonoBehaviour
         Transform mapHolder = new GameObject(holderName).transform;
         mapHolder.parent = transform;
 
-        IMap map = mapCreationStrategy.Create(mapSize, maxRoomSize, minRoomSize, seed);
-        TileType[,] tileData = map.MapData;
+        currentMap = mapCreationStrategy.Create(mapSize, maxRoomSize, minRoomSize, seed);
+        TileType[,] tileData = currentMap.TileData;
 
         for (int x = 0; x < tileData.GetLength(0); x++)
         {
