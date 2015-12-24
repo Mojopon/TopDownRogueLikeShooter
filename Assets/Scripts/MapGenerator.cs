@@ -31,27 +31,21 @@ public class MapGenerator : MonoBehaviour
         mapHolder.parent = transform;
 
         IMap map = mapCreationStrategy.Create(mapSize, maxRoomSize, minRoomSize, 1);
-        int[,] mapData = map.MapData;
+        TileType[,] tileData = map.MapData;
 
-        for (int x = 0; x < mapData.GetLength(0); x++)
+        for (int x = 0; x < tileData.GetLength(0); x++)
         {
-            for(int y = 0; y < mapData.GetLength(1); y++)
+            for (int y = 0; y < tileData.GetLength(1); y++)
             {
-                if (mapData[x, y] == 1)
-                {
-                    SpawnTile(x, y, TileType.Floor, mapHolder);
-                }
-                else if(mapData[x, y] == 2)
-                {
-                    SpawnTile(x, y, TileType.Wall, mapHolder);
-                }
+                SpawnTile(x, y, tileData[x, y], mapHolder);
             }
         }
-        Debug.Log("map generated");
     }
 
     void SpawnTile(int x, int y, TileType type, Transform mapHolder)
     {
+        if (type == TileType.None) return;
+
         Transform tileToSpawn = null;
         Vector3 spawnPosition = CoordToPosition(x, y);
 

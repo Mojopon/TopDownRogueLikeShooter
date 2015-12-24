@@ -3,5 +3,5 @@ using System.Collections;
 
 public interface IMap
 {
-    int[,] MapData { get; }
+    TileType[,] MapData { get; }
 }

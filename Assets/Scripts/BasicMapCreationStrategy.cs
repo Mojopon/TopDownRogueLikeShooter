@@ -49,18 +49,16 @@ public class BasicMapCreationStrategy
         }
     }
 
-    private int[,] mapData;
-
-    private Vector2 mapSize;
-    private Vector2 maxRoomSize;
-    private Vector2 minRoomSize;
-
+    private TileType[,] mapData;
     private List<Room> rooms;
 
     public BasicMapCreationStrategy() { }
 
+    private System.Random suedoRandom;
     public IMap Create(Vector2 mapSize, Vector2 maxRoomSize, Vector2 minRoomSize, int seed)
     {
+        suedoRandom = new System.Random(seed);
+
         int mapSizeX = (int)mapSize.x;
         int mapSizeY = (int)mapSize.y;
 
@@ -71,19 +69,19 @@ public class BasicMapCreationStrategy
         int minRoomSizeY = (int)minRoomSize.y;
 
 
-        mapData = new int[mapSizeX, mapSizeY];
+        mapData = new TileType[mapSizeX, mapSizeY];
         rooms = new List<Room>();
 
         int maxFails = 10;
 
         while(rooms.Count < 10)
         {
-            int roomSizeX = Random.Range(minRoomSizeX, maxRoomSizeX);
-            int roomSizeY = Random.Range(minRoomSizeY, maxRoomSizeY);
+            int roomSizeX = suedoRandom.Next(minRoomSizeX, maxRoomSizeX);
+            int roomSizeY = suedoRandom.Next(minRoomSizeY, maxRoomSizeY);
 
             var room = new Room();
-            room.left = Random.Range(0, mapSizeX - roomSizeX);
-            room.top = Random.Range(0, mapSizeY - roomSizeY);
+            room.left = suedoRandom.Next(0, mapSizeX - roomSizeX);
+            room.top = suedoRandom.Next(0, mapSizeY - roomSizeY);
             room.width = roomSizeX;
             room.height = roomSizeY;
 
@@ -135,7 +133,7 @@ public class BasicMapCreationStrategy
         {
             for (int y = 0; y < r.height; y++)
             {
-                mapData[r.left + x, r.top + y] = 1;
+                mapData[r.left + x, r.top + y] = TileType.Floor;
             }
         }
     }
@@ -152,14 +150,14 @@ public class BasicMapCreationStrategy
 
         while (x != targetX)
         {
-            mapData[x, y] = 1;
+            mapData[x, y] = TileType.Floor;
 
             x += x < targetX ? 1 : -1;
         }
 
         while (y != targetY)
         {
-            mapData[x, y] = 1;
+            mapData[x, y] = TileType.Floor;
 
             y += y < targetY ? 1 : -1;
         }
@@ -173,7 +171,7 @@ public class BasicMapCreationStrategy
             {
                 if (mapData[x, y] == 0 && HasAdjacentFloor(x, y))
                 {
-                    mapData[x, y] = 2;
+                    mapData[x, y] = TileType.Wall;
                 }
             }
         }
@@ -181,23 +179,23 @@ public class BasicMapCreationStrategy
 
     bool HasAdjacentFloor(int x, int y)
     {
-        if (x > 0 && mapData[x - 1, y] == 1)
+        if (x > 0 && mapData[x - 1, y] == TileType.Floor)
             return true;
-        if (x < mapData.GetLength(0) - 1 && mapData[x + 1, y] == 1)
+        if (x < mapData.GetLength(0) - 1 && mapData[x + 1, y] == TileType.Floor)
             return true;
-        if (y > 0 && mapData[x, y - 1] == 1)
+        if (y > 0 && mapData[x, y - 1] == TileType.Floor)
             return true;
-        if (y < mapData.GetLength(1) - 1 && mapData[x, y + 1] == 1)
-            return true;
-
-        if (x > 0 && y > 0 && mapData[x - 1, y - 1] == 1)
-            return true;
-        if (x < mapData.GetLength(0) - 1 && y > 0 && mapData[x + 1, y - 1] == 1)
+        if (y < mapData.GetLength(1) - 1 && mapData[x, y + 1] == TileType.Floor)
             return true;
 
-        if (x > 0 && y < mapData.GetLength(1) - 1 && mapData[x - 1, y + 1] == 1)
+        if (x > 0 && y > 0 && mapData[x - 1, y - 1] == TileType.Floor)
             return true;
-        if (x < mapData.GetLength(0) - 1 && y < mapData.GetLength(1) - 1 && mapData[x + 1, y + 1] == 1)
+        if (x < mapData.GetLength(0) - 1 && y > 0 && mapData[x + 1, y - 1] == TileType.Floor)
+            return true;
+
+        if (x > 0 && y < mapData.GetLength(1) - 1 && mapData[x - 1, y + 1] == TileType.Floor)
+            return true;
+        if (x < mapData.GetLength(0) - 1 && y < mapData.GetLength(1) - 1 && mapData[x + 1, y + 1] == TileType.Floor)
             return true;
 
 
