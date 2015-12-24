@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class IMap
+public interface IMap
 {
+    int[,] MapData { get; }
 }
