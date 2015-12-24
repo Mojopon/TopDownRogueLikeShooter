@@ -39,19 +39,36 @@ public class MapGenerator : MonoBehaviour
             {
                 if (mapData[x, y] == 1)
                 {
-                    Transform newTile = Instantiate(tilePrefab, CoordToPosition(x, y) + new Vector3(0, 0, 1), Quaternion.identity) as Transform;
-                    newTile.localScale = Vector3.one * tileSize;
-                    newTile.parent = mapHolder;
+                    SpawnTile(x, y, TileType.Floor, mapHolder);
                 }
                 else if(mapData[x, y] == 2)
                 {
-                    Transform newTile = Instantiate(wallPrefab, CoordToPosition(x, y) + new Vector3(0, 0, 1), Quaternion.identity) as Transform;
-                    newTile.localScale = Vector3.one * tileSize;
-                    newTile.parent = mapHolder;
+                    SpawnTile(x, y, TileType.Wall, mapHolder);
                 }
             }
         }
         Debug.Log("map generated");
+    }
+
+    void SpawnTile(int x, int y, TileType type, Transform mapHolder)
+    {
+        Transform tileToSpawn = null;
+        Vector3 spawnPosition = CoordToPosition(x, y);
+
+        switch(type)
+        {
+            case TileType.Floor:
+                tileToSpawn = tilePrefab;
+                spawnPosition += new Vector3(0, 0, 1);
+                break;
+            case TileType.Wall:
+                tileToSpawn = wallPrefab;
+                break;
+        }
+
+        Transform newTile = Instantiate(tileToSpawn, spawnPosition, Quaternion.identity) as Transform;
+        newTile.localScale = Vector3.one * tileSize;
+        newTile.parent = mapHolder;
     }
 
     Vector3 CoordToPosition(int x, int y)
