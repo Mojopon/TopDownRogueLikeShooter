@@ -1,16 +1,18 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class Pathfinding : MonoBehaviour
+public class Pathfinding
 {
+    public List<Node> Path = new List<Node>();
+
     Grid grid;
 
-    void Awake()
+    public Pathfinding(Grid _grid)
     {
-        grid = GetComponent<Grid>();
+        grid = _grid;
     }
 
-    void FindPath(Vector3 startPos, Vector3 targetPos)
+    public void FindPath(Vector3 startPos, Vector3 targetPos)
     {
         Node startNode = grid.NodeFromWorldPoint(startPos);
         Node targetNode = grid.NodeFromWorldPoint(targetPos);
@@ -35,8 +37,55 @@ public class Pathfinding : MonoBehaviour
 
             if(currentNode == targetNode)
             {
-                return;
+                Path = RetracePath(startNode, targetNode);
+            }
+
+            foreach(Node neighbour in grid.GetNeightbours(currentNode))
+            {
+                if(!neighbour.walkable || closedSet.Contains(neighbour))
+                {
+                    continue;
+                }
+
+                int newMovementCostToNeighbour = currentNode.gCost + GetDistance(currentNode, neighbour);
+                if(newMovementCostToNeighbour < neighbour.gCost || !openSet.Contains(neighbour))
+                {
+                    neighbour.gCost = newMovementCostToNeighbour;
+                    neighbour.hCost = GetDistance(neighbour, targetNode);
+                    neighbour.parent = currentNode;
+
+                    if (!openSet.Contains(neighbour))
+                        openSet.Add(neighbour);
+                }
             }
         }
+    }
+
+    List<Node> RetracePath(Node startNode, Node endNode)
+    {
+        List<Node> path = new List<Node>();
+        Node currentNode = endNode;
+
+        while(currentNode != startNode)
+        {
+            path.Add(currentNode);
+            currentNode = currentNode.parent;
+        }
+
+        path.Reverse();
+
+        return path;
+    }
+
+    int GetDistance(Node nodeA, Node nodeB)
+    {
+        int dstX = Mathf.Abs(nodeA.gridX - nodeB.gridX);
+        int dstY = Mathf.Abs(nodeA.gridY - nodeB.gridY);
+
+        //14 is cost for diagonal movement
+
+        if(dstX > dstY)
+            return 14 * dstY + 10 * (dstX - dstY);
+        return 14 * dstX + 10 * (dstY - dstX);
     }
 }
