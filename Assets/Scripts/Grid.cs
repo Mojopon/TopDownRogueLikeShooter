@@ -1,8 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Grid : MonoBehaviour
 {
+    public bool drawGridOnScene;
+
     public MapGenerator mapGenerator;
     public Transform player;
 
@@ -14,8 +17,6 @@ public class Grid : MonoBehaviour
     private Vector2 originalMapSize;
     private int gridSizeX, gridSizeY;
 
-
-
     void Start()
     {
         if(mapGenerator == null)
@@ -24,13 +25,22 @@ public class Grid : MonoBehaviour
             return;
         }
 
-        originalMapSize = mapGenerator.mapSize * mapGenerator.tileSize;
-        Vector2 gridSize = mapGenerator.mapSize / nodeRadius;
-
         nodeDiameter = nodeRadius * 2;
+
+        originalMapSize = mapGenerator.mapSize * mapGenerator.tileSize;
+        Vector2 gridSize = originalMapSize / nodeDiameter;
+
         gridSizeX = Mathf.RoundToInt(gridSize.x);
         gridSizeY = Mathf.RoundToInt(gridSize.y);
         CreateGrid();
+    }
+
+    public int MaxSize
+    {
+        get
+        {
+            return gridSizeX * gridSizeY;
+        }
     }
 
     void CreateGrid()
@@ -44,9 +54,29 @@ public class Grid : MonoBehaviour
             {
                 Vector3 worldPoint = worldBottomLeft + Vector3.right * (x * nodeDiameter + nodeRadius) + Vector3.up * (y * nodeDiameter + nodeRadius);
                 bool walkable = !(Physics2D.OverlapCircle(worldPoint, nodeRadius, unwalkableMask));
-                grid[x, y] = new Node(walkable, worldPoint);
+                grid[x, y] = new Node(walkable, worldPoint, x, y);
             }
         }
+    }
+
+    public List<Node> GetNeightbours(Node node)
+    {
+        List<Node> neighbours = new List<Node>();
+
+        for(int x = -1; x <= 1; x++)
+        {
+            for(int y = -1; y <= 1; y++)
+            {
+                if (x == 0 && y == 0) continue;
+
+                int checkX = node.gridX + x;
+                int checkY = node.gridY + y;
+                
+                // continue from here
+            }
+        }
+
+        return neighbours;
     }
 
     public Node NodeFromWorldPoint(Vector3 worldPosition)
@@ -62,7 +92,7 @@ public class Grid : MonoBehaviour
 
     void OnDrawGizmos()
     {
-        if (mapGenerator == null) return;
+        if (!drawGridOnScene || mapGenerator == null) return;
 
         Gizmos.DrawWireCube(transform.position, new Vector3(originalMapSize.x, originalMapSize.y, 1));
         if(grid != null)
