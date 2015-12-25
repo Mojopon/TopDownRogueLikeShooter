@@ -55,6 +55,7 @@ public class BasicMapCreationStrategy
     public BasicMapCreationStrategy() { }
 
     private System.Random suedoRandom;
+    private int wallRadius = 1;
     public IMap Create(Vector2 mapSize, Vector2 maxRoomSize, Vector2 minRoomSize, int seed)
     {
         suedoRandom = new System.Random(seed);
@@ -80,8 +81,8 @@ public class BasicMapCreationStrategy
             int roomSizeY = suedoRandom.Next(minRoomSizeY, maxRoomSizeY);
 
             var room = new Room();
-            room.left = suedoRandom.Next(0, mapSizeX - roomSizeX);
-            room.top = suedoRandom.Next(0, mapSizeY - roomSizeY);
+            room.left = suedoRandom.Next(0 + wallRadius, mapSizeX - (roomSizeX + wallRadius));
+            room.top = suedoRandom.Next(0 + wallRadius, mapSizeY - (roomSizeY + wallRadius));
             room.width = roomSizeX;
             room.height = roomSizeY;
 
