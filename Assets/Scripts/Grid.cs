@@ -13,7 +13,7 @@ public class Grid : MonoBehaviour, IGrid
     public LayerMask unwalkableMask;
     public float nodeRadius;
 
-    private Node[,] grid;
+    private GridImpl grid;
     private float nodeDiameter;
     private Vector2 originalMapSize;
     private int gridSizeX, gridSizeY;
@@ -39,19 +39,10 @@ public class Grid : MonoBehaviour, IGrid
         pathfinding = GetComponent<Pathfinding>();
     }
 
-    public int MaxSize
-    {
-        get
-        {
-            return gridSizeX * gridSizeY;
-        }
-    }
-
     void CreateGrid()
     {
-        grid = new Node[gridSizeX, gridSizeY];
+        grid = new GridImpl(gridSizeX, gridSizeY);
         Vector3 worldBottomLeft = (transform.position - Vector3.right * originalMapSize.x / 2 - Vector3.up * originalMapSize.y / 2);
-        Debug.Log(worldBottomLeft);
         for(int x = 0; x < gridSizeX; x++)
         {
             for(int y = 0; y < gridSizeY; y++)
@@ -63,27 +54,11 @@ public class Grid : MonoBehaviour, IGrid
         }
     }
 
+    public int MaxSize { get { return grid.MaxSize; } }
+
     public List<Node> GetNeightbours(Node node)
     {
-        List<Node> neighbours = new List<Node>();
-
-        for(int x = -1; x <= 1; x++)
-        {
-            for(int y = -1; y <= 1; y++)
-            {
-                if (x == 0 && y == 0) continue;
-
-                int checkX = node.gridX + x;
-                int checkY = node.gridY + y;
-                
-                if(checkX >= 0 && checkX < gridSizeX && checkY >= 0 && checkY < gridSizeY)
-                {
-                    neighbours.Add(grid[checkX, checkY]);
-                }
-            }
-        }
-
-        return neighbours;
+        return grid.GetNeightbours(node);
     }
 
     public Node NodeFromWorldPoint(Vector3 worldPosition)
