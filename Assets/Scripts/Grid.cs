@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class Grid : MonoBehaviour
+public class Grid : MonoBehaviour, IGrid
 {
     public bool drawGridOnScene;
 

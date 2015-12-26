@@ -5,16 +5,19 @@ public class ChasingBehaviour : MonoBehaviour
 {
     public Transform target;
     public bool isDead = false;
+
+    Rigidbody2D myRigidbody;
     float speed = 3;
     Vector3[] path;
     int targetIndex;
 
-    private float pathUpdateTime = 0.5f;
-    private float lastUpdated;
+    float pathUpdateTime = 0.25f;
+    float lastUpdated;
 
     void Start()
     {
         target = GameObject.FindGameObjectWithTag("Player").transform;
+        myRigidbody = GetComponent<Rigidbody2D>();
     }
 
     void Update()
@@ -54,7 +57,7 @@ public class ChasingBehaviour : MonoBehaviour
                 currentWayPoint = path[targetIndex];
             }
 
-            transform.position = Vector3.MoveTowards(transform.position, currentWayPoint, speed * Time.deltaTime);
+            myRigidbody.MovePosition(Vector3.MoveTowards(transform.position, currentWayPoint, speed * Time.deltaTime));
             yield return null;
         }
     }

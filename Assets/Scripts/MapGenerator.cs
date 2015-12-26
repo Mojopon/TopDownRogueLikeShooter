@@ -59,8 +59,8 @@ public class MapGenerator : MonoBehaviour
         {
             case TileType.Floor:
                 tileToSpawn = tilePrefab;
-                spawnPosition += new Vector3(0, 0, 1);
                 AvailablePositions.Add(spawnPosition);
+                spawnPosition += new Vector3(0, 0, 1);
                 break;
             case TileType.Wall:
                 tileToSpawn = wallPrefab;
