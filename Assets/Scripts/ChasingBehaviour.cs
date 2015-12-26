@@ -1,15 +1,21 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Unit : MonoBehaviour
+public class ChasingBehaviour : MonoBehaviour
 {
     public Transform target;
-    float speed = 5;
+    public bool isDead = false;
+    float speed = 3;
     Vector3[] path;
     int targetIndex;
 
     private float pathUpdateTime = 0.5f;
     private float lastUpdated;
+
+    void Start()
+    {
+        target = GameObject.FindGameObjectWithTag("Player").transform;
+    }
 
     void Update()
     {
@@ -22,7 +28,7 @@ public class Unit : MonoBehaviour
 
     public void OnPathFound(Vector3[] newPath, bool pathSuccessful)
     {
-        if(pathSuccessful)
+        if(!isDead && pathSuccessful)
         {
             path = newPath;
             StopCoroutine("FollowPath");

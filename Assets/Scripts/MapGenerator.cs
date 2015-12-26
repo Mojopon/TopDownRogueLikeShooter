@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class MapGenerator : MonoBehaviour
 {
@@ -12,6 +13,8 @@ public class MapGenerator : MonoBehaviour
     public int seed;
 
     public MapCreationStrategyType strategy;
+
+    public List<Vector3> AvailablePositions;
 
     private IMap currentMap;
 
@@ -57,6 +60,7 @@ public class MapGenerator : MonoBehaviour
             case TileType.Floor:
                 tileToSpawn = tilePrefab;
                 spawnPosition += new Vector3(0, 0, 1);
+                AvailablePositions.Add(spawnPosition);
                 break;
             case TileType.Wall:
                 tileToSpawn = wallPrefab;

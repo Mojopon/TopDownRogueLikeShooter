@@ -20,18 +20,16 @@ public class Enemy : LivingEntity
         myRigidbody = GetComponent<Rigidbody2D>();
     }
 
+    protected override void Die()
+    {
+        base.Die();
+        GetComponent<ChasingBehaviour>().isDead = true;
+    }
+
     void Update()
     {
         var angle = RotationHelper.RotateToTarget(transform.position, target.position, currentAngle, turnSpeed * Time.deltaTime);
         transform.rotation = Quaternion.Euler(0, 0, angle);
         currentAngle = angle;
-    }
-
-    void FixedUpdate()
-    {
-        var directionToTarget = (target.position - transform.position).normalized;
-        var moveVelocity = directionToTarget * Time.deltaTime;
-
-        myRigidbody.MovePosition(transform.position + moveVelocity);
     }
 }

@@ -1,8 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Spawner : MonoBehaviour
 {
+    public MapGenerator mapGenerator;
     public Wave[] waves;
     public Enemy enemy;
 
@@ -12,9 +14,11 @@ public class Spawner : MonoBehaviour
     int enemiesRemainingToSpawn;
     int enemiesRemainingAlive;
     float nextSpawnTime;
+    List<Vector3> availablePositions;
     
     void Start()
     {
+        availablePositions = mapGenerator.AvailablePositions;
         NextWave();
     }
 
@@ -25,7 +29,8 @@ public class Spawner : MonoBehaviour
             enemiesRemainingToSpawn--;
             nextSpawnTime = Time.time + currentWave.timeBetweenSpawns;
 
-            Enemy spawnedEnemy = Instantiate(enemy, Vector3.zero, Quaternion.identity) as Enemy;
+            var spawnPosition = availablePositions[Random.Range(0, availablePositions.Count)];
+            Enemy spawnedEnemy = Instantiate(enemy, spawnPosition, Quaternion.identity) as Enemy;
             spawnedEnemy.OnDeath += OnEnemyDeath;
         }
     }    
