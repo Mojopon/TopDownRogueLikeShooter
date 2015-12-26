@@ -17,9 +17,9 @@ public class Grid : MonoBehaviour
     private float nodeDiameter;
     private Vector2 originalMapSize;
     private int gridSizeX, gridSizeY;
-    private Pathfinding pathfinder;
+    private Pathfinding pathfinding;
 
-    void Start()
+    public void Initialize()
     {
         if(mapGenerator == null)
         {
@@ -36,7 +36,7 @@ public class Grid : MonoBehaviour
         gridSizeY = Mathf.RoundToInt(gridSize.y);
         CreateGrid();
 
-        pathfinder = new Pathfinding(this);
+        pathfinding = GetComponent<Pathfinding>();
     }
 
     public int MaxSize
@@ -99,9 +99,10 @@ public class Grid : MonoBehaviour
 
     void OnDrawGizmos()
     {
-        if (!drawGridOnScene || mapGenerator == null || pathfinder == null) return;
+        if (!drawGridOnScene || mapGenerator == null) return;
 
-        pathfinder.FindPath(player.position, target.position);
+        //pathfinding.FindPath(player.position, target.position);
+        //var path = pathfinding.Path;
 
         Gizmos.DrawWireCube(transform.position, new Vector3(originalMapSize.x, originalMapSize.y, 1));
         if(grid != null)
@@ -110,7 +111,7 @@ public class Grid : MonoBehaviour
             foreach(Node n in grid)
             {
                 Gizmos.color = (n.walkable) ? Color.white : Color.red;
-                if (pathfinder.Path.Contains(n)) Gizmos.color = Color.black;
+                //if (path.Contains(n)) Gizmos.color = Color.black;
                 Gizmos.DrawCube(n.worldPosition - Vector3.forward, Vector3.one * (nodeDiameter - .1f));
             }
         }

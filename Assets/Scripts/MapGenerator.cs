@@ -15,7 +15,7 @@ public class MapGenerator : MonoBehaviour
 
     private IMap currentMap;
 
-    void Start()
+    public void Initialize()
     {
         GenerateMap();
     }
