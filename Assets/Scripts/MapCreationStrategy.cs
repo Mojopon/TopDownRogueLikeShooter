@@ -28,11 +28,12 @@ public class MapCreationStrategy : MonoBehaviour
         var mapCreationStrategy = new BasicMapCreationStrategyImpl();
         var maxRoomSize = settingsForBasicMapCreation.maxRoomSize;
         var minRoomSize = settingsForBasicMapCreation.minRoomSize;
+        var roomsToCreate = settingsForBasicMapCreation.roomsToCreate;
 
         Debug.Log("max room size : " + maxRoomSize);
         Debug.Log("min room size : " + minRoomSize);
 
-        return mapCreationStrategy.Create(mapSize, maxRoomSize, minRoomSize, seed);
+        return mapCreationStrategy.Create(mapSize, maxRoomSize, minRoomSize, roomsToCreate, seed);
     }
 
     [Serializable]
@@ -40,5 +41,6 @@ public class MapCreationStrategy : MonoBehaviour
     {
         public Vector2 maxRoomSize;
         public Vector2 minRoomSize;
+        public int roomsToCreate;
     }
 }

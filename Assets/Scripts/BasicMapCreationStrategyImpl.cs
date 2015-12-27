@@ -56,7 +56,7 @@ public class BasicMapCreationStrategyImpl
 
     private System.Random suedoRandom;
     private int wallRadius = 1;
-    public Map Create(Vector2 mapSize, Vector2 maxRoomSize, Vector2 minRoomSize, int seed)
+    public Map Create(Vector2 mapSize, Vector2 maxRoomSize, Vector2 minRoomSize, int roomsToCreate, int seed)
     {
         suedoRandom = new System.Random(seed);
 
@@ -75,7 +75,7 @@ public class BasicMapCreationStrategyImpl
 
         int maxFails = 10;
 
-        while(rooms.Count < 10)
+        while(rooms.Count < roomsToCreate)
         {
             int roomSizeX = suedoRandom.Next(minRoomSizeX, maxRoomSizeX);
             int roomSizeY = suedoRandom.Next(minRoomSizeY, maxRoomSizeY);

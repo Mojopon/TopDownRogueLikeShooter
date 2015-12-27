@@ -12,6 +12,7 @@ public class MapGenerator : MonoBehaviour
 
     public MapCreationStrategyType strategy;
 
+    [HideInInspector]
     public List<Vector3> AvailablePositions;
 
     public IMap CurrentMap;
@@ -37,6 +38,8 @@ public class MapGenerator : MonoBehaviour
         CurrentMap = newMap;
         TileType[,] tileData = CurrentMap.TileData;
 
+        AvailablePositions = new List<Vector3>();
+
         for (int x = 0; x < tileData.GetLength(0); x++)
         {
             for (int y = 0; y < tileData.GetLength(1); y++)
@@ -51,7 +54,7 @@ public class MapGenerator : MonoBehaviour
         if (type == TileType.None) return;
 
         Transform tileToSpawn = null;
-        Vector3 spawnPosition = CoordToPosition(x, y);
+        Vector3 spawnPosition = CurrentMap.CoordToPosition(x, y);
 
         switch(type)
         {
@@ -70,8 +73,9 @@ public class MapGenerator : MonoBehaviour
         newTile.parent = mapHolder;
     }
 
-    Vector3 CoordToPosition(int x, int y)
+    void OnDrawGizmos()
     {
-        return new Vector3(-CurrentMap.MapSize.x / 2f + 0.5f + x, -CurrentMap.MapSize.y / 2f + 0.5f + y, 0) * tileSize;
-    }  
+        var mapCreationStrategy = GetComponent<MapCreationStrategy>();
+        Gizmos.DrawWireCube(transform.position, new Vector3(mapCreationStrategy.mapSize.x, mapCreationStrategy.mapSize.y, 1) * tileSize);
+    }
 }
