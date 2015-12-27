@@ -28,8 +28,8 @@ public class Grid : MonoBehaviour, IGrid
         }
 
         nodeDiameter = nodeRadius * 2;
-
-        originalMapSize = mapGenerator.mapSize * mapGenerator.tileSize;
+        IMap map = mapGenerator.CurrentMap;
+        originalMapSize = map.MapSize * map.TileSize;
         Vector2 gridSize = originalMapSize / nodeDiameter;
 
         gridSizeX = Mathf.RoundToInt(gridSize.x);

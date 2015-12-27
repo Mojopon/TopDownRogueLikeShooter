@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class BasicMapCreationStrategy
+public class BasicMapCreationStrategyImpl
 {
     protected class Room
     {
@@ -52,11 +52,11 @@ public class BasicMapCreationStrategy
     private TileType[,] mapData;
     private List<Room> rooms;
 
-    public BasicMapCreationStrategy() { }
+    public BasicMapCreationStrategyImpl() { }
 
     private System.Random suedoRandom;
     private int wallRadius = 1;
-    public IMap Create(Vector2 mapSize, Vector2 maxRoomSize, Vector2 minRoomSize, int seed)
+    public Map Create(Vector2 mapSize, Vector2 maxRoomSize, Vector2 minRoomSize, int seed)
     {
         suedoRandom = new System.Random(seed);
 

@@ -25,3 +25,19 @@ public class MapEditor : Editor
     }
 
 }
+
+[CustomEditor(typeof(MapCreationStrategy))]
+public class MapCreationStrategyEditor : Editor
+{
+
+    public override void OnInspectorGUI()
+    {
+
+        MapCreationStrategy strategy = target as MapCreationStrategy;
+
+        if (DrawDefaultInspector())
+        {
+            strategy.GenerateMap();
+        }
+    }
+}

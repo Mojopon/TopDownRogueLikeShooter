@@ -2,21 +2,19 @@
 using System.Collections;
 using System.Collections.Generic;
 
+[RequireComponent(typeof(MapCreationStrategy))]
 public class MapGenerator : MonoBehaviour
 {
+    public MapCreationStrategy mapCreationStrategy;
     public Transform tilePrefab;
     public Transform wallPrefab;
     public float tileSize = 1f;
-    public Vector2 mapSize;
-    public Vector2 maxRoomSize;
-    public Vector2 minRoomSize;
-    public int seed;
 
     public MapCreationStrategyType strategy;
 
     public List<Vector3> AvailablePositions;
 
-    private IMap currentMap;
+    public IMap CurrentMap;
 
     public void Initialize()
     {
@@ -25,8 +23,6 @@ public class MapGenerator : MonoBehaviour
         
     public void GenerateMap()
     {
-        var mapCreationStrategy = new BasicMapCreationStrategy();
-
         string holderName = "Generated Map";
         if(transform.FindChild(holderName))
         {
@@ -36,8 +32,10 @@ public class MapGenerator : MonoBehaviour
         Transform mapHolder = new GameObject(holderName).transform;
         mapHolder.parent = transform;
 
-        currentMap = mapCreationStrategy.Create(mapSize, maxRoomSize, minRoomSize, seed);
-        TileType[,] tileData = currentMap.TileData;
+        var newMap = mapCreationStrategy.Create();
+        newMap.TileSize = tileSize;
+        CurrentMap = newMap;
+        TileType[,] tileData = CurrentMap.TileData;
 
         for (int x = 0; x < tileData.GetLength(0); x++)
         {
@@ -74,6 +72,6 @@ public class MapGenerator : MonoBehaviour
 
     Vector3 CoordToPosition(int x, int y)
     {
-        return new Vector3(-mapSize.x / 2f + 0.5f + x, -mapSize.y / 2f + 0.5f + y, 0) * tileSize;
+        return new Vector3(-CurrentMap.MapSize.x / 2f + 0.5f + x, -CurrentMap.MapSize.y / 2f + 0.5f + y, 0) * tileSize;
     }  
 }
