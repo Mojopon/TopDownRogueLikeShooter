@@ -29,6 +29,9 @@ public class GridImpl : IGrid, IEnumerable
         }
     }
 
+    public int Width { get { return gridSizeX; } }
+    public int Height { get { return gridSizeY; } }
+
     public List<Node> GetNeightbours(Node node)
     {
         List<Node> neighbours = new List<Node>();

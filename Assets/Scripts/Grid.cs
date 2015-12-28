@@ -24,6 +24,16 @@ public class Grid : MonoBehaviour, IGrid
         get { return grid[x, y]; }
     }
 
+    public List<Node> GetNeightbours(Node node)
+    {
+        return grid.GetNeightbours(node);
+    }
+
+    public int MaxSize { get { return grid.MaxSize; } }
+    public int Width { get { return grid.Width; } }
+    public int Height { get { return grid.Height; } }
+
+
     public void Initialize()
     {
         if(mapGenerator == null)
@@ -57,13 +67,6 @@ public class Grid : MonoBehaviour, IGrid
                 grid.CreateNode(x, y, walkable, worldPoint);
             }
         }
-    }
-
-    public int MaxSize { get { return grid.MaxSize; } }
-
-    public List<Node> GetNeightbours(Node node)
-    {
-        return grid.GetNeightbours(node);
     }
 
     public Node NodeFromWorldPoint(Vector3 worldPosition)

@@ -34,6 +34,13 @@ public class GridTest
     }
 
     [Test]
+    public void ShouldReturnWidthAndHeight()
+    {
+        Assert.AreEqual(gridSizeX, grid.Width);
+        Assert.AreEqual(gridSizeY, grid.Height);
+    }
+
+    [Test]
     public void ShouldGetNeighboursOfTargettedNode()
     {
         SetupGrid();

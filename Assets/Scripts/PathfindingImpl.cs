@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class PathfindingImpl
+public class PathfindingImpl : IPathfinder
 {
     IGrid grid;
     public PathfindingImpl(IGrid _grid)

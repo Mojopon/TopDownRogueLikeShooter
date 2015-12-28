@@ -50,4 +50,9 @@ public class Node : IHeapItem<Node>
         }
         return -compare;
     }
+
+    public override string ToString()
+    {
+        return string.Format("({0}, {1}), walkable:{2}, World Position:{3}", gridX, gridY, walkable, worldPosition);
+    }
 }

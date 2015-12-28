@@ -4,11 +4,8 @@ using NUnit.Framework;
 using NSubstitute;
 
 [TestFixture]
-public class PathfindTest
+public class PathfindTest : GridTestFixture
 {
-    GridImpl grid;
-    Node[,] nodes;
-
     int[,] map = new int[,]
     {
         { 0,1,0,0,0 },
@@ -36,23 +33,6 @@ public class PathfindTest
         { 0,0,0,1,0 },
     };
 
-    void SetupTestFixture(int[,] map)
-    {
-        int mapSizeX = map.GetLength(1);
-        int mapSizeY = map.GetLength(0);
-
-        nodes = new Node[mapSizeX, mapSizeY];
-        grid = new GridImpl(mapSizeX, mapSizeY);
-
-        for (int y = 0; y < mapSizeY; y++)
-        {
-            for (int x = 0; x < mapSizeX; x++)
-            {
-                nodes[x, y] = grid.CreateNode(x, y, map[y, x] == 0);
-            }
-        }
-    }
-
     [Test]
     public void ShouldFindPath()
     {
@@ -64,6 +44,9 @@ public class PathfindTest
         var targetNode = nodes[4, 4];
 
         var path = pathfinder.FindPath(startNode, targetNode);
+
+        // ensure last node in the list is the first next step to the target node
+        Assert.AreEqual(nodes[0, 1], path[path.Count - 1]);
         path.Reverse();
 
         Assert.AreEqual(12, path.Count);
