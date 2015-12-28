@@ -8,13 +8,28 @@ public class Pathfinding : MonoBehaviour
 {
     public List<Node> Path = new List<Node>();
 
+    PathReference pathReference;
     PathRequestManager requestManager;
     Grid grid;
+    IPathfinder pathfinder;
 
     public void Initialize()
     {
         requestManager = GetComponent<PathRequestManager>();
         grid = GetComponent<Grid>();
+        pathfinder = new PathfindingImpl(grid);
+        pathReference = new PathReference(grid, pathfinder);
+
+        Stopwatch sw = new Stopwatch();
+        sw.Start();
+
+        for(int y = 0; y < grid.Height; y++)
+        {
+            pathReference.UpdatePathReference(10, y);
+        }
+
+        sw.Stop();
+        print("reference has been created. Time: " + sw.ElapsedMilliseconds);
     }
 
     public void StartFindPath(Vector3 startPos, Vector3 target)
@@ -30,7 +45,6 @@ public class Pathfinding : MonoBehaviour
         Node startNode = grid.NodeFromWorldPoint(startPos);
         Node targetNode = grid.NodeFromWorldPoint(targetPos);
 
-        var pathfinder = new PathfindingImpl(grid);
         var path = pathfinder.FindPath(startNode, targetNode, out pathSuccess);
 
         yield return null;

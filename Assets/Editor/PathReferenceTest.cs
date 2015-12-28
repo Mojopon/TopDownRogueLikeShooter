@@ -3,6 +3,7 @@ using System.Collections;
 using NUnit.Framework;
 using NSubstitute;
 using System.Linq;
+using System.Diagnostics;
 
 [TestFixture]
 public class PathReferenceTest : GridTestFixture
@@ -19,6 +20,8 @@ public class PathReferenceTest : GridTestFixture
         { 0,0,0,1,0 },
     };
 
+    int[,] map2 = new int[25, 25];
+
     [SetUp]
     public void SetUp()
     {
@@ -26,6 +29,29 @@ public class PathReferenceTest : GridTestFixture
 
         pathfinder = new PathfindingImpl(grid);
         pathReference = new PathReference(grid, pathfinder);
+    }
+
+    [Test]
+    public void SpeedCheck()
+    {
+        SetupTestFixture(map2);
+
+        pathfinder = new PathfindingImpl(grid);
+        pathReference = new PathReference(grid, pathfinder);
+
+        Stopwatch sw = new Stopwatch();
+        sw.Start();
+
+        for (int x = 0; x < 20; x++)
+        {
+            for(int y = 0; y < 20; y++)
+            {
+                pathReference.UpdatePathReference(x, y);
+            }
+        }
+
+        sw.Stop();
+        UnityEngine.Debug.Log("testing done: " + sw.ElapsedMilliseconds);
     }
 
     [Test]
@@ -40,6 +66,17 @@ public class PathReferenceTest : GridTestFixture
         startNode = grid[4, 4];
         targetNode = grid[0, 0];
         FollowPath(pathReference, startNode, targetNode, 100);
+
+        // test to ensure that reference returns same result as pathfinder's
+        var pathFromReference = pathReference.FindPath(startNode, targetNode);
+        var pathFromPathfinder = pathfinder.FindPath(startNode, targetNode);
+
+        Assert.AreEqual(pathFromReference.Count, pathFromPathfinder.Count);
+
+        for(int i = 0; i < pathFromReference.Count; i++)
+        {
+            Assert.AreEqual(pathFromReference[i], pathFromPathfinder[i]);
+        }
     }
 
     void FollowPath(PathReference reference, Node source, Node target, int maxTry)
