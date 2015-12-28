@@ -35,13 +35,32 @@ public class PathReferenceTest : GridTestFixture
 
         var startNode = grid[0, 0];
         var targetNode = grid[4, 4];
+        FollowPath(pathReference, startNode, targetNode, 100);
 
-        int maxTry = 100;
-        var currentNode = startNode;
-        /*while(currentNode != targetNode)
+        startNode = grid[4, 4];
+        targetNode = grid[0, 0];
+        FollowPath(pathReference, startNode, targetNode, 100);
+    }
+
+    void FollowPath(PathReference reference, Node source, Node target, int maxTry)
+    {
+        int step = 0;
+        var currentNode = source;
+        while (currentNode != target)
         {
-            var nextNode = pathReference.GetNextNodeToTarget()
-        }*/
+            var nextNode = pathReference.GetNextNodeToTarget(currentNode, target);
+            currentNode = nextNode;
+            if (currentNode == target)
+            {
+                break;
+            }
+
+            step++;
+            if (maxTry < step)
+            {
+                Assert.Fail("Could not follow path to the goal");
+            }
+        }
     }
 
     [Test]
