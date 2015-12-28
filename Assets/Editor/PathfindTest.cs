@@ -42,28 +42,15 @@ public class PathfindTest
         int mapSizeY = map.GetLength(0);
 
         nodes = new Node[mapSizeX, mapSizeY];
-        for (int y = 0; y < mapSizeY; y++)
-        {
-            for (int x = 0; x < mapSizeX; x++)
-            {
-                CreateNode(x, y, map[y, x] == 0);
-            }
-        }
-
         grid = new GridImpl(mapSizeX, mapSizeY);
 
         for (int y = 0; y < mapSizeY; y++)
         {
             for (int x = 0; x < mapSizeX; x++)
             {
-                grid[x, y] = nodes[x, y];
+                nodes[x, y] = grid.CreateNode(x, y, map[y, x] == 0);
             }
         }
-    }
-
-    void CreateNode(int x, int y, bool walkable)
-    {
-        nodes[x, y] = new Node(walkable, Vector3.zero, x, y);
     }
 
     [Test]

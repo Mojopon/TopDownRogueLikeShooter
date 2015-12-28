@@ -12,7 +12,6 @@ public class GridImpl : IGrid, IEnumerable
     public Node this[int x, int y]
     {
         get { return grid[x, y]; }
-        set { grid[x, y] = value; }
     }
 
     public GridImpl(int _gridSizeX, int _gridSizeY)
@@ -51,6 +50,17 @@ public class GridImpl : IGrid, IEnumerable
         }
 
         return neighbours;
+    }
+
+    public Node CreateNode(int x, int y, bool walkable, Vector3 worldPosition)
+    {
+        grid[x, y] = new Node(walkable, worldPosition, x, y);
+        return grid[x, y];
+    }
+
+    public Node CreateNode(int x, int y, bool walkable)
+    {
+        return CreateNode(x, y, walkable, Vector3.zero);
     }
 
     public IEnumerator GetEnumerator()

@@ -20,11 +20,17 @@ public class GridTest
     }
 
     [Test]
-    public void CanSetandGetGrid()
+    public void ShouldCreateNode()
     {
-        Node node = new Node(true, Vector3.zero, 3, 3);
-        grid[0, 0] = node;
-        Assert.AreEqual(node, grid[0, 0]);
+        var node = grid.CreateNode(3, 4, true);
+        Assert.IsTrue(node.gridX == 3 && node.gridY == 4);
+    }
+
+    [Test]
+    public void CanReferenceNode()
+    {
+        var node = grid.CreateNode(1, 2, true);
+        Assert.AreEqual(grid[1, 2], node);
     }
 
     [Test]
@@ -66,8 +72,7 @@ public class GridTest
         {
             for(int x = 0; x < gridSizeX; x++)
             {
-                nodes[x, y] = new Node(true, Vector3.zero, x, y);
-                grid[x, y] = nodes[x, y];
+                nodes[x, y] = grid.CreateNode(x, y, true);
             }
         }
     }

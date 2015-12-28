@@ -19,6 +19,11 @@ public class Grid : MonoBehaviour, IGrid
     private int gridSizeX, gridSizeY;
     private Pathfinding pathfinding;
 
+    public Node this[int x, int y]
+    {
+        get { return grid[x, y]; }
+    }
+
     public void Initialize()
     {
         if(mapGenerator == null)
@@ -49,7 +54,7 @@ public class Grid : MonoBehaviour, IGrid
             {
                 Vector3 worldPoint = worldBottomLeft + Vector3.right * (x * nodeDiameter + nodeRadius) + Vector3.up * (y * nodeDiameter + nodeRadius);
                 bool walkable = !(Physics2D.OverlapCircle(worldPoint, nodeRadius, unwalkableMask));
-                grid[x, y] = new Node(walkable, worldPoint, x, y);
+                grid.CreateNode(x, y, walkable, worldPoint);
             }
         }
     }
