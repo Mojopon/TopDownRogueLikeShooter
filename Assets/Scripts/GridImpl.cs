@@ -66,6 +66,13 @@ public class GridImpl : IGrid, IEnumerable
         return CreateNode(x, y, walkable, Vector3.zero);
     }
 
+    public Node GetClosestAvailableNode(Node targetNode)
+    {
+        if (targetNode.walkable) return targetNode;
+
+        return null;
+    }
+
     public IEnumerator GetEnumerator()
     {
         for(int y = 0; y < gridSizeY; y++)

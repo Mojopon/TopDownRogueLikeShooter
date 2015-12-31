@@ -18,18 +18,6 @@ public class Pathfinding : MonoBehaviour
         requestManager = GetComponent<PathRequestManager>();
         grid = GetComponent<Grid>();
         pathfinder = new PathfindingImpl(grid);
-        pathReference = new PathReference(grid, pathfinder);
-
-        Stopwatch sw = new Stopwatch();
-        sw.Start();
-
-        for(int y = 0; y < grid.Height; y++)
-        {
-            pathReference.UpdatePathReference(10, y);
-        }
-
-        sw.Stop();
-        print("reference has been created. Time: " + sw.ElapsedMilliseconds);
     }
 
     public void StartFindPath(Vector3 startPos, Vector3 target)

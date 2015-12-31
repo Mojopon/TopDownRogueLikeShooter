@@ -6,20 +6,20 @@ public abstract class GridTestFixture
     protected GridImpl grid;
     protected Node[,] nodes;
 
-    protected int mapSizeX;
-    protected int mapSizeY;
+    protected int gridSizeX;
+    protected int gridSizeY;
 
     protected void SetupTestFixture(int[,] map)
     {
-        int mapSizeX = map.GetLength(1);
-        int mapSizeY = map.GetLength(0);
+        gridSizeX = map.GetLength(1);
+        gridSizeY = map.GetLength(0);
 
-        nodes = new Node[mapSizeX, mapSizeY];
-        grid = new GridImpl(mapSizeX, mapSizeY);
+        nodes = new Node[gridSizeX, gridSizeY];
+        grid = new GridImpl(gridSizeX, gridSizeY);
 
-        for (int y = 0; y < mapSizeY; y++)
+        for (int y = 0; y < gridSizeY; y++)
         {
-            for (int x = 0; x < mapSizeX; x++)
+            for (int x = 0; x < gridSizeX; x++)
             {
                 nodes[x, y] = grid.CreateNode(x, y, map[y, x] == 0);
             }

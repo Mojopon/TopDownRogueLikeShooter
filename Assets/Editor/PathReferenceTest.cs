@@ -22,7 +22,7 @@ public class PathReferenceTest : GridTestFixture
 
     int[,] map2 = new int[25, 25];
 
-    [SetUp]
+    //[SetUp]
     public void SetUp()
     {
         SetupTestFixture(map);
@@ -31,7 +31,7 @@ public class PathReferenceTest : GridTestFixture
         pathReference = new PathReference(grid, pathfinder);
     }
 
-    [Test]
+    //[Test]
     public void SpeedCheck()
     {
         SetupTestFixture(map2);
@@ -54,7 +54,7 @@ public class PathReferenceTest : GridTestFixture
         UnityEngine.Debug.Log("testing done: " + sw.ElapsedMilliseconds);
     }
 
-    [Test]
+    //[Test]
     public void ShouldBeAbleToFollowPathToTheGoal()
     {
         pathReference.UpdateAll();
@@ -100,7 +100,7 @@ public class PathReferenceTest : GridTestFixture
         }
     }
 
-    [Test]
+    //[Test]
     public void ShouldPathfindToAllOfOtherWalkableNodes()
     {
         var pathfinderMock = Substitute.For<IPathfinder>();
@@ -126,7 +126,7 @@ public class PathReferenceTest : GridTestFixture
         }
     }
 
-    [Test]
+    //[Test]
     public void ShouldIndicateNextStep()
     {
         pathReference.UpdatePathReference(2, 2);

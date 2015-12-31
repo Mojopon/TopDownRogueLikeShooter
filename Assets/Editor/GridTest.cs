@@ -4,11 +4,17 @@ using NUnit.Framework;
 using NSubstitute;
 
 [TestFixture]
-public class GridTest
+public class GridTest : GridTestFixture
 {
-    Node[,] nodes;
-    GridImpl grid;
-    int gridSizeX, gridSizeY;
+    int[,] map = new int[,]
+    {
+            { 1,1,0,0,0 },
+            { 0,1,0,1,0 },
+            { 0,1,0,1,0 },
+            { 0,1,0,1,0 },
+            { 0,0,0,1,0 },
+    };
+
     [SetUp]
     public void SetUp()
     {
@@ -71,6 +77,16 @@ public class GridTest
     public void ShouldReturnNumberOfNodes()
     {
         Assert.AreEqual(gridSizeX * gridSizeY, grid.MaxSize);
+    }
+
+    [Test]
+    public void ShouldGetClosestAvailableNode()
+    {
+        SetupTestFixture(map);
+
+        Assert.IsFalse(grid[0, 0].walkable);
+        var closestAvailableNode = grid.GetClosestAvailableNode(grid[0, 0]);
+        Assert.AreEqual(grid[0, 1], closestAvailableNode);
     }
 
     public void SetupGrid()

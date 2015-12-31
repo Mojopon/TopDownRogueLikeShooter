@@ -57,6 +57,8 @@ public class ChasingBehaviour : MonoBehaviour
                 currentWayPoint = path[targetIndex];
             }
 
+            if(path.Length != 0)
+            Debug.Log("Destination: " + path[path.Length-1]);
             myRigidbody.MovePosition(Vector3.MoveTowards(transform.position, currentWayPoint, speed * Time.deltaTime));
             yield return null;
         }

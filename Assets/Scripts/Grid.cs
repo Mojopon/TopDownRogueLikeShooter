@@ -12,6 +12,7 @@ public class Grid : MonoBehaviour, IGrid
 
     public LayerMask unwalkableMask;
     public float nodeRadius;
+    public float nodeOverlapRate = 0.5f;
 
     private GridImpl grid;
     private float nodeDiameter;
@@ -27,6 +28,11 @@ public class Grid : MonoBehaviour, IGrid
     public List<Node> GetNeightbours(Node node)
     {
         return grid.GetNeightbours(node);
+    }
+
+    public Node GetClosestAvailableNode(Node targetNode)
+    {
+        return grid.GetClosestAvailableNode(targetNode);
     }
 
     public int MaxSize { get { return grid.MaxSize; } }
@@ -63,7 +69,7 @@ public class Grid : MonoBehaviour, IGrid
             for(int y = 0; y < gridSizeY; y++)
             {
                 Vector3 worldPoint = worldBottomLeft + Vector3.right * (x * nodeDiameter + nodeRadius) + Vector3.up * (y * nodeDiameter + nodeRadius);
-                bool walkable = !(Physics2D.OverlapCircle(worldPoint, nodeRadius, unwalkableMask));
+                bool walkable = !(Physics2D.OverlapCircle(worldPoint, nodeRadius * nodeOverlapRate, unwalkableMask));
                 grid.CreateNode(x, y, walkable, worldPoint);
             }
         }

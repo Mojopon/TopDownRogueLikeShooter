@@ -5,6 +5,7 @@ public interface IGrid
 {
     Node this[int x, int y] { get; }
     List<Node> GetNeightbours(Node node);
+    Node GetClosestAvailableNode(Node targetNode);
     int MaxSize { get; }
     int Width { get; }
     int Height { get; }
