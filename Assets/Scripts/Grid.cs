@@ -18,7 +18,7 @@ public class Grid : MonoBehaviour, IGrid
     private float nodeDiameter;
     private Vector2 originalMapSize;
     private int gridSizeX, gridSizeY;
-    private Pathfinding pathfinding;
+    private PathfindingOld pathfinding;
 
     public Node this[int x, int y]
     {
@@ -57,7 +57,7 @@ public class Grid : MonoBehaviour, IGrid
         gridSizeY = Mathf.RoundToInt(gridSize.y);
         CreateGrid();
 
-        pathfinding = GetComponent<Pathfinding>();
+        pathfinding = GetComponent<PathfindingOld>();
     }
 
     void CreateGrid()

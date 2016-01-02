@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System;
 using System.Diagnostics;
 
-public class Pathfinding : MonoBehaviour
+public class PathfindingOld : MonoBehaviour
 {
     public List<Node> Path = new List<Node>();
 

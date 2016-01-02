@@ -9,14 +9,14 @@ public class PathRequestManager : MonoBehaviour
     PathRequest currentPathRequest;
 
     static PathRequestManager instance;
-    Pathfinding pathfinding;
+    PathfindingOld pathfinding;
 
     bool isProcessingPath;
 
     public void Initialize()
     {
         instance = this;
-        pathfinding = GetComponent<Pathfinding>();
+        pathfinding = GetComponent<PathfindingOld>();
     }
 
     public static void RequestPath(Vector3 pathStart, Vector3 pathEnd, Action<Vector3[], bool> callback)

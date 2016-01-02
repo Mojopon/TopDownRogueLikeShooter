@@ -5,7 +5,7 @@ public class UtilityInitializer : MonoBehaviour
 {
     public MapGenerator mapGenerator;
     public Grid grid;
-    public Pathfinding pathfinding;
+    public PathfindingOld pathfinding;
     public PathRequestManager pathRequestManager;
 
     void Awake()
