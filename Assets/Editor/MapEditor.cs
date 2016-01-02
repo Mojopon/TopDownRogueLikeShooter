@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEditor;
+using Pathfinding;
 
 [CustomEditor(typeof(MapGenerator))]
 public class MapEditor : Editor
@@ -9,19 +10,19 @@ public class MapEditor : Editor
     public override void OnInspectorGUI()
     {
 
-        MapGenerator map = target as MapGenerator;
+        MapGenerator mapGenerator = target as MapGenerator;
 
         if (DrawDefaultInspector())
         {
-            map.GenerateMap();
+            mapGenerator.GenerateMap();
         }
 
         if (GUILayout.Button("Generate Map"))
         {
-            map.GenerateMap();
+            mapGenerator.GenerateMap();
         }
-
-
+        IMap currentMap = mapGenerator.CurrentMap;
+        AstarPath astarPath = FindObjectOfType<AstarPath>();
     }
 
 }

@@ -5,6 +5,8 @@ using System.Collections;
 public class Map : IMap
 {
     public Vector2 MapSize { get; set; }
+    public int Width { get { return TileData.GetLength(0); } }
+    public int Height { get { return TileData.GetLength(1); } }
     public float TileSize { get; set; }
     public TileType[,] TileData { get; set; }
 

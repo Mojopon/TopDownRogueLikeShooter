@@ -2,7 +2,6 @@
 using System.Collections;
 
 [RequireComponent(typeof(Rigidbody2D))]
-
 public class Enemy : LivingEntity
 {
     public float moveSpeed = 3f;
@@ -23,7 +22,6 @@ public class Enemy : LivingEntity
     protected override void Die()
     {
         base.Die();
-        GetComponent<ChasingBehaviour>().isDead = true;
     }
 
     void Update()

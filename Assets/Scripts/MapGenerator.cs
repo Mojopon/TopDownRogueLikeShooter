@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using Pathfinding;
 
 [RequireComponent(typeof(MapCreationStrategy))]
 public class MapGenerator : MonoBehaviour
@@ -71,6 +72,28 @@ public class MapGenerator : MonoBehaviour
         Transform newTile = Instantiate(tileToSpawn, spawnPosition, Quaternion.identity) as Transform;
         newTile.localScale = Vector3.one * tileSize;
         newTile.parent = mapHolder;
+    }
+
+    void UpdateGraph()
+    {
+        if(AstarPath.active.astarData.gridGraph == null)
+        {
+            Debug.Log("grid graph is null");
+            return;
+        }
+
+        float nodeSize = tileSize /2;
+        float width = CurrentMap.Width / (nodeSize/2);
+        float depth = CurrentMap.Height / (nodeSize/2);
+
+        Debug.Log(string.Format("Node Size: {0}, Width: {1}, Depth: {2},", nodeSize, width, depth));
+
+        GridGraph gridGraph = AstarPath.active.astarData.gridGraph;
+        gridGraph.Width = Mathf.RoundToInt(width);
+        gridGraph.Depth = Mathf.RoundToInt(depth);
+        gridGraph.center = new Vector3(0, 0.1f, 0);
+        AstarPath.active.Scan();
+
     }
 
     void OnDrawGizmos()

@@ -4,6 +4,8 @@ using System.Collections;
 public interface IMap
 {
     Vector2 MapSize { get; }
+    int Width { get; }
+    int Height { get; }
     float TileSize { get; }
     TileType[,] TileData { get; }
 

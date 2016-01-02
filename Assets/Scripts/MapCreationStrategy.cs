@@ -30,9 +30,6 @@ public class MapCreationStrategy : MonoBehaviour
         var minRoomSize = settingsForBasicMapCreation.minRoomSize;
         var roomsToCreate = settingsForBasicMapCreation.roomsToCreate;
 
-        Debug.Log("max room size : " + maxRoomSize);
-        Debug.Log("min room size : " + minRoomSize);
-
         return mapCreationStrategy.Create(mapSize, maxRoomSize, minRoomSize, roomsToCreate, seed);
     }
 
