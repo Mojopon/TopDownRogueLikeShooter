@@ -22,7 +22,12 @@ public class MapGenerator : MonoBehaviour
     {
         GenerateMap();
     }
-        
+
+    void Start()
+    {
+        UpdateGraph();
+    }
+
     public void GenerateMap()
     {
         string holderName = "Generated Map";
@@ -76,22 +81,24 @@ public class MapGenerator : MonoBehaviour
 
     void UpdateGraph()
     {
-        if(AstarPath.active.astarData.gridGraph == null)
+        if(AstarPath.active == null)
         {
             Debug.Log("grid graph is null");
             return;
         }
 
-        float nodeSize = tileSize /2;
-        float width = CurrentMap.Width / (nodeSize/2);
-        float depth = CurrentMap.Height / (nodeSize/2);
-
-        Debug.Log(string.Format("Node Size: {0}, Width: {1}, Depth: {2},", nodeSize, width, depth));
-
         GridGraph gridGraph = AstarPath.active.astarData.gridGraph;
-        gridGraph.Width = Mathf.RoundToInt(width);
-        gridGraph.Depth = Mathf.RoundToInt(depth);
-        gridGraph.center = new Vector3(0, 0.1f, 0);
+        var tileSize = CurrentMap.TileSize;
+
+        Debug.Log(gridGraph.nodeSize);
+
+        float width = (CurrentMap.Width * tileSize) / gridGraph.nodeSize;
+        float depth = (CurrentMap.Height * tileSize) / gridGraph.nodeSize;
+
+        gridGraph.width = Mathf.RoundToInt(width);
+        gridGraph.depth = Mathf.RoundToInt(depth);
+        gridGraph.center = new Vector3(0, 0, -0.1f);
+        gridGraph.UpdateSizeFromWidthDepth();
         AstarPath.active.Scan();
 
     }
